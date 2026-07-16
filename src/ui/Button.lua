@@ -50,7 +50,7 @@ function Button:draw()
         love.graphics.setColor(self.bgColor)
     end
 
-    love.graphics.setColor(self.textColor)
+  
     
     if self.bgImage then
         local scaleX = self.width / self.bgImage:getWidth()
@@ -60,7 +60,8 @@ function Button:draw()
     else
         love.graphics.rectangle("fill",self.x,self.y,self.width,self.height)
     end
-
+    
+    love.graphics.setColor(self.textColor)
     love.graphics.draw(self.textObject, textX, textY)
 
     love.graphics.pop()
