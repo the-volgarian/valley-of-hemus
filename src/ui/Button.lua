@@ -20,13 +20,30 @@ function Button.new(x,y,width,height,text,font,bgColor,textColor,hoverColor)
 end
 
 function Button:draw()
-    love.graphics.setColor(self.bgColor)
-    love.graphics.rectangle("fill",self.x,self.y,self.width,self.height)
-    love.graphics.setColor(self.textColor)
-    if self:isHovered() then
-        love.graphics.setColor(self.hoverColor)
+    local hovered = self:isHovered()
+    local centerX = self.x + self.width / 2
+    local centerY = self.y + self.height / 2
+
+    love.graphics.push()
+
+    if hovered then
+        love.graphics.translate(centerX, centerY)
+        love.graphics.scale(0.95, 0.95)
+        love.graphics.translate(-centerX, -centerY)
     end
+
+    if hovered then
+        love.graphics.setColor(self.hoverColor)
+    else
+        love.graphics.setColor(self.bgColor)
+    end
+
+    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+
+    love.graphics.setColor(self.textColor)
     love.graphics.draw(self.textObject, self.x + 10, self.y + 8)
+
+    love.graphics.pop()
     love.graphics.setColor(1, 1, 1)
 end
 
