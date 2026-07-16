@@ -1,7 +1,7 @@
 local Button = {}
 Button.__index = Button
 
-function Button.new(x,y,width,height,text,font,bgColor,textColor,pressedColor,hoverColor,onClick)
+function Button.new(x,y,width,height,text,font,bgImagePath,bgColor,textColor,pressedColor,hoverColor,onClick)
 
     local self = setmetatable({},Button)
 
@@ -11,13 +11,19 @@ function Button.new(x,y,width,height,text,font,bgColor,textColor,pressedColor,ho
     self.height = height
     self.text = text
     self.font = font or love.graphics.getFont()
+    self.bgImagePath = bgImagePath
     self.bgColor = bgColor
     self.textColor = textColor
     self.hoverColor = hoverColor
-    self.textObject = love.graphics.newText(font, text)
+    self.textObject = love.graphics.newText(self.font, self.text)
+    self.bgImage = nil
     self.onClick = onClick
     self.pressedColor = pressedColor
     self.pressed = false
+
+    if self.bgImagePath then
+        self.bgImage = love.graphics.newImage(self.bgImagePath)
+    end
 
     return self
 end
@@ -28,6 +34,7 @@ function Button:draw()
     local centerY = self.y + self.height / 2
     local textX = self.x + (self.width - self.textObject:getWidth()) / 2
     local textY = self.y + (self.height - self.textObject:getHeight()) / 2
+
 
     love.graphics.push()
 
@@ -43,9 +50,16 @@ function Button:draw()
         love.graphics.setColor(self.bgColor)
     end
 
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-
     love.graphics.setColor(self.textColor)
+    
+    if self.bgImage then
+        local scaleX = self.width / self.bgImage:getWidth()
+        local scaleY = self.height / self.bgImage:getHeight()
+
+        love.graphics.draw(self.bgImage,self.x,self.y,0,scaleX,scaleY)
+    else
+        love.graphics.rectangle("fill",self.x,self.y,self.width,self.height)
+    end
 
     love.graphics.draw(self.textObject, textX, textY)
 
@@ -64,7 +78,6 @@ function Button:isHovered()
     local mx, my = love.mouse.getPosition()
     return self:contains(mx, my)
 end
-
 
 function Button:click()
     self.pressed = true
