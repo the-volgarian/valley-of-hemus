@@ -29,14 +29,7 @@ function Background:draw()
     local x = (screenWidth - drawWidth) / 2
     local y = (screenHeight - drawHeight) / 2
 
-    love.graphics.draw(
-        self.bgImage,
-        x,
-        y,
-        0,
-        scale,
-        scale
-    )
+    love.graphics.draw(self.bgImage,x,y,0,scale,scale)
 end
 
 return Background
