@@ -1,3 +1,5 @@
+love.filesystem.createDirectory("plugins/sqlite3")
+
 require("sqlite3")
 
 local Connection = {}
