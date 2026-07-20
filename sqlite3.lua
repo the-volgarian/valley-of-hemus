@@ -237,7 +237,7 @@ local base64 = __ee5_base64();
 	--concat the complete library path
 	local pLib = sPath..sDirectorySeparator.."lsqlite3."..sLibraryExtension
 	local bLibExists = false;
-	local hLibTest = io.open(pLib, "r+");
+	local hLibTest = io.open(pLib, "rb")
 	
 	--check to see if the file exists
 	if hLibTest then
