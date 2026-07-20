@@ -1,42 +1,32 @@
-CommandParser = {}
+local CommandParser = {}
 
-CommandParser.__index = CommandParser
+local function split(input)
+    local result = {}
 
-local command = {
-    "attack",
-    "look",
-    "go"
-}
-
-local idRegex = "^%d+$"
-local commandRegex = "^%a+$"
-
-function Split(inputstr, sep)
-  if sep == nil then
-    sep = "%s"
-  end
-  local t = {}
-  for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-    table.insert(t, str)
-  end
-  return t
-end
-
-
-function CommandParser.getCommand(userInputCommand)
-    local userInputCommandArray = Split(userInputCommand, " ")
-    local map = {}
-    local command
-    local arguments = {}
-
-    command = userInputCommandArray[1]
-    for i = 2, #userInputCommandArray do
-        table.insert(arguments, userInputCommandArray[i])
+    for word in string.gmatch(input, "%S+") do
+        table.insert(result, word)
     end
 
-    map = {command = command, arguments = arguments}
+    return result
+end
 
-    return map
+function CommandParser.getCommand(userInput)
+    local parts = split(userInput)
+
+    if #parts == 0 then
+        return nil
+    end
+
+    local arguments = {}
+
+    for i = 2, #parts do
+        table.insert(arguments, parts[i])
+    end
+
+    return {
+        command = parts[1],
+        arguments = arguments
+    }
 end
 
 return CommandParser
