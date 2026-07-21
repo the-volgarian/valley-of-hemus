@@ -15,7 +15,7 @@ function AttackCommand.execute(arguments)
     end
 
     QueryExecutor.execute(
-        "database/command/attack.sql",
+        "database/commands/attack.sql",
         {
             playerId = 1,
             targetType = targetType,
