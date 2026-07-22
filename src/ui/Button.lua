@@ -53,11 +53,11 @@ function Button:draw()
 
         love.graphics.draw(self.bgImage, self.x, self.y, 0, scaleX, scaleY)
     else
-        love.graphics.setColor(hovered and self.hoverColor or self.bgColor)
+        love.graphics.setColor(self.bgColor)
         love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     end
 
-    love.graphics.setColor(self.textColor)
+    love.graphics.setColor(hovered and self.hoverColor or self.textColor)
     love.graphics.draw(self.textObject, textX, textY)
 
     love.graphics.pop()
