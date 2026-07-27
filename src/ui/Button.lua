@@ -1,6 +1,14 @@
 local Button = {}
 Button.__index = Button
 
+local mouseX = 0
+local mouseY = 0
+
+function Button.setMousePosition(x, y)
+    mouseX = x
+    mouseY = y
+end
+
 function Button.new(x, y, width, height, text, font, bgImagePath, bgColor, textColor, pressedColor, hoverColor, onClick)
     local self = setmetatable({}, Button)
 
@@ -72,8 +80,7 @@ function Button:contains(x, y)
 end
 
 function Button:isHovered()
-    local mx, my = love.mouse.getPosition()
-    return self:contains(mx, my)
+    return self:contains(mouseX, mouseY)
 end
 
 function Button:click()
