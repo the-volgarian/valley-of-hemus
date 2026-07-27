@@ -9,10 +9,25 @@ function MainMenu.load()
     buttons = {}
     font = love.graphics.newFont("assets/fonts/ARCADECLASSIC.TTF", 40)
 
-    table.insert(buttons, Button.new(450, 220, 380, 70, "PLAY", font, "assets/images/ui/menu_button_bg.png", nil, {62/255,39/255,24/255}, nil, {145/255,94/255,45/255}, function() print("Play") end))
-    table.insert(buttons, Button.new(450, 320, 380, 70, "SETTINGS", font, "assets/images/ui/menu_button_bg.png", nil, {62/255,39/255,24/255}, nil, {145/255,94/255,45/255}, function() print("Settings") end))
-    table.insert(buttons, Button.new(450, 420, 380, 70, "CREDITS", font, "assets/images/ui/menu_button_bg.png", nil, {62/255,39/255,24/255}, nil, {145/255,94/255,45/255}, function() print("Credits") end))
-    table.insert(buttons, Button.new(450, 520, 380, 70, "QUIT", font, "assets/images/ui/menu_button_bg.png", nil, {62/255,39/255,24/255}, nil, {145/255,94/255,45/255}, function() love.event.quit() end))
+    table.insert(buttons, Button.new(450, 220, 380, 70, "PLAY", font, "assets/images/ui/Sp.png", nil, {62/255, 39/255, 24/255}, nil, {145/255, 94/255, 45/255},
+    function()
+        print("Play")
+    end))
+
+    table.insert(buttons, Button.new(450, 320, 380, 70, "SETTINGS", font, "assets/images/ui/test.png", nil, {62/255, 39/255, 24/255}, nil, {145/255, 94/255, 45/255},
+    function()
+        print("Settings")
+    end))
+
+    table.insert(buttons, Button.new(450, 420, 380, 70, "CREDITS", font, "assets/images/ui/test.png", nil, {62/255, 39/255, 24/255}, nil, {145/255, 94/255, 45/255},
+    function()
+        print("Credits")
+    end))
+
+    table.insert(buttons, Button.new(450, 520, 380, 70, "QUIT", font, "assets/images/ui/test.png", nil, {62/255, 39/255, 24/255}, nil, {145/255, 94/255, 45/255},
+    function()
+        love.event.quit()
+    end))
 end
 
 function MainMenu.draw()
