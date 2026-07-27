@@ -1,7 +1,9 @@
 local Settings = {}
 local Button = require("src.ui.Button")
 
-local buttons = {}
+local navigationButtons = {}
+local generalButtons = {}
+local audioButtons = {}
 
 local font
 local woodSupport
@@ -11,7 +13,7 @@ local resolutionText
 local resolutionLabel
 local fullscreenLabel
 
-local isGeneralSelected = false
+local isGeneralSelected = true
 local isAudioSelected = false
 local isFullscreenSelected = false
 
@@ -76,7 +78,7 @@ local function findCurrentResolution()
 end
 
 function Settings.load()
-    buttons = {}
+    navigationButtons = {}
 
     font = love.graphics.newFont("assets/fonts/ARCADECLASSIC.TTF", 40)
     woodSupport = love.graphics.newImage("assets/images/ui/wood_support.png")
@@ -92,37 +94,38 @@ function Settings.load()
     findCurrentResolution()
     updateResolutionText()
 
-    table.insert(buttons, Button.new(60, 120, 460, 100, "GENERAL", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(navigationButtons, Button.new(60, 120, 460, 100, "GENERAL", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         isGeneralSelected = true
         isAudioSelected = false
     end))
 
-    table.insert(buttons, Button.new(60, 270, 460, 100, "AUDIO", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(navigationButtons, Button.new(60, 270, 460, 100, "AUDIO", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         isGeneralSelected = false
         isAudioSelected = true
     end))
 
-    table.insert(buttons, Button.new(60, 420, 460, 100, "CONTROLS", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(navigationButtons, Button.new(60, 420, 460, 100, "CONTROLS", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         print("Controls")
     end))
 
-    table.insert(buttons, Button.new(60, 570, 460, 100, "HELP", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(navigationButtons, Button.new(60, 570, 460, 100, "HELP", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         print("Help")
     end))
 
-    table.insert(buttons, Button.new(160, 500, 150, 110, "", font, "assets/images/ui/back_btn_image.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(navigationButtons, Button.new(78, 700, 364, 110, "", font, "assets/images/ui/back_btn_image.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         print("Back")
     end))
+    -- 3.31125
 
-    table.insert(buttons, Button.new(1450, 265, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(generalButtons, Button.new(1450, 265, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         applyWindowSettings(true)
     end))
 
-    table.insert(buttons, Button.new(1650, 265, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(generalButtons, Button.new(1650, 265, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         applyWindowSettings(false)
     end))
 
-    table.insert(buttons, Button.new(1550, 350, 200, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(generalButtons, Button.new(1550, 350, 200, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         currentResolutionIndex = currentResolutionIndex + 1
 
         if currentResolutionIndex > #resolutions then
@@ -139,37 +142,42 @@ function Settings.draw(mouseX, mouseY)
 
     love.graphics.setColor(1, 1, 1, 1)
 
-    love.graphics.draw(woodSupport, 260, 80, 0, 3, 4)
+    love.graphics.draw(woodSupport, 230, 80, 0, 5.5, 5.5)
     love.graphics.draw(settingsPanel, 840, 0, 0, 6.8, 6.8)
-    love.graphics.draw(fullscreenLabel, 1100, 280)
-    love.graphics.draw(resolutionLabel, 1100, 365)
 
     Button.setMousePosition(mouseX, mouseY)
 
-    for _, button in ipairs(buttons) do
+    for _, button in ipairs(navigationButtons) do
         button:draw()
     end
 
-    love.graphics.draw(
-        resolutionText,
-        resolutionButtonX + (resolutionButtonWidth - resolutionText:getWidth()) / 2,
-        365
-    )
-
-    love.graphics.setColor(1, 1, 1, 1)
-
     if isGeneralSelected then
-        love.graphics.rectangle("fill", 60, 500, 380, 70)
+        love.graphics.draw(fullscreenLabel, 1100, 280)
+        love.graphics.draw(resolutionLabel, 1100, 365)
+
+        for _, button in ipairs(generalButtons) do
+            button:draw()
+        end
+
+        love.graphics.draw(
+            resolutionText,
+            resolutionButtonX + (resolutionButtonWidth - resolutionText:getWidth()) / 2,
+            365
+        )
+
+        if isFullscreenSelected then
+            love.graphics.draw(checkmarkImage, 1450, 265, 0, 4.5, 4.5)
+        else
+            love.graphics.draw(checkmarkImage, 1650, 265, 0, 4.5, 4.5)
+        end
     end
 
     if isAudioSelected then
-        love.graphics.rectangle("fill", 100, 500, 380, 70)
-    end
+        for _, button in ipairs(audioButtons) do
+            button:draw()
+        end
 
-    if isFullscreenSelected then
-        love.graphics.draw(checkmarkImage, 1450, 265, 0, 4.5, 4.5)
-    else
-        love.graphics.draw(checkmarkImage, 1650, 265, 0, 4.5, 4.5)
+        love.graphics.rectangle("fill", 100, 500, 380, 70)
     end
 end
 
@@ -178,10 +186,28 @@ function Settings.mousepressed(x, y, mouseButton)
         return
     end
 
-    for _, button in ipairs(buttons) do
+    for _, button in ipairs(navigationButtons) do
         if button:contains(x, y) then
             button:click()
             return
+        end
+    end
+
+    if isGeneralSelected then
+        for _, button in ipairs(generalButtons) do
+            if button:contains(x, y) then
+                button:click()
+                return
+            end
+        end
+    end
+
+    if isAudioSelected then
+        for _, button in ipairs(audioButtons) do
+            if button:contains(x, y) then
+                button:click()
+                return
+            end
         end
     end
 end
