@@ -1,5 +1,7 @@
 local Settings = {}
 local Button = require("src.ui.Button")
+local HelpText = require("src.ui.HelpText")
+
 
 local navigationButtons = {}
 local generalButtons = {}
@@ -80,7 +82,10 @@ end
 function Settings.load()
     navigationButtons = {}
 
+    HelpText.load()
+
     font = love.graphics.newFont("assets/fonts/ARCADECLASSIC.TTF", 40)
+
     woodSupport = love.graphics.newImage("assets/images/ui/wood_support.png")
     settingsPanel = love.graphics.newImage("assets/images/ui/settings_panel.png.png")
     checkmarkImage = love.graphics.newImage("assets/images/ui/x.png")
@@ -125,7 +130,7 @@ function Settings.load()
         applyWindowSettings(false)
     end))
 
-    table.insert(generalButtons, Button.new(1550, 350, 200, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(generalButtons, Button.new(1450, 350, 200, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         currentResolutionIndex = currentResolutionIndex + 1
 
         if currentResolutionIndex > #resolutions then
@@ -137,7 +142,7 @@ function Settings.load()
 end
 
 function Settings.draw(mouseX, mouseY)
-    local resolutionButtonX = 1550
+    local resolutionButtonX = 1450
     local resolutionButtonWidth = 200
 
     love.graphics.setColor(1, 1, 1, 1)
@@ -150,6 +155,7 @@ function Settings.draw(mouseX, mouseY)
     for _, button in ipairs(navigationButtons) do
         button:draw()
     end
+    
 
     if isGeneralSelected then
         love.graphics.draw(fullscreenLabel, 1100, 280)
@@ -179,6 +185,19 @@ function Settings.draw(mouseX, mouseY)
 
         love.graphics.rectangle("fill", 100, 500, 380, 70)
     end
+
+if mouseX >= 1100 and mouseX <= 1150
+and mouseY >= 880 and mouseY <= 950 then
+    HelpText.show(
+        "Legend   says   this   is   Emperor   Nikephoros   skull\nBulgarian   craftsmanship   at   its   finest",
+        mouseX + 30,
+        mouseY + 10
+    )
+else
+    HelpText.hide()
+end
+
+HelpText.draw()
 end
 
 function Settings.mousepressed(x, y, mouseButton)
