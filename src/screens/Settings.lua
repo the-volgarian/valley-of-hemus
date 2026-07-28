@@ -25,6 +25,11 @@ local isFullscreenSelected = false
 local currentResolutionIndex = 4
 local fullscreen = true
 
+local currentMasterVolume
+local masterVolumeText
+local currentMusicVolume
+local currentSfxVolume
+
 local resolutions = {
     {1280, 720},
     {1366, 768},
@@ -37,6 +42,12 @@ local function updateResolutionText()
     local height = resolutions[currentResolutionIndex][2]
 
     resolutionText = love.graphics.newText(font, width .. "x" .. height)
+end
+
+local function updateMasterVolumeText()
+    local PERCENT_MULTIPLIER = 100
+    currentMasterVolume = AudioManager.getMasterVolume() * PERCENT_MULTIPLIER
+    masterVolumeText = love.graphics.newText(font, currentMasterVolume)
 end
 
 local function refreshViewport()
@@ -104,6 +115,8 @@ function Settings.load()
 
     findCurrentResolution()
     updateResolutionText()
+    updateMasterVolumeText()
+    
 
     table.insert(navigationButtons, Button.new(60, 120, 460, 100, "GENERAL", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         isGeneralSelected = true
@@ -148,10 +161,12 @@ function Settings.load()
 
     table.insert(audioButtons, Button.new(1450, 265, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         AudioManager.decreaseMasterVolume()
+        updateMasterVolumeText()
     end))
 
     table.insert(audioButtons, Button.new(1650, 265, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
          AudioManager.increaseMasterVolume()
+         updateMasterVolumeText()
     end))
 
 end
@@ -195,6 +210,7 @@ function Settings.draw(mouseX, mouseY)
 
     if isAudioSelected then
         love.graphics.draw(masterVolumeLabel, 1100,280)
+        love.graphics.draw(masterVolumeText, 1550, 265)
         for _, button in ipairs(audioButtons) do
             button:draw()
         end
