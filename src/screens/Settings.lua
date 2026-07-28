@@ -1,6 +1,7 @@
 local Settings = {}
 local Button = require("src.ui.Button")
 local HelpText = require("src.ui.HelpText")
+local AudioManager = require("src.audio.AudioManager")
 
 
 local navigationButtons = {}
@@ -10,10 +11,12 @@ local audioButtons = {}
 local font
 local woodSupport
 local settingsPanel
+local settingForestPanel
 local checkmarkImage
 local resolutionText
 local resolutionLabel
 local fullscreenLabel
+local masterVolumeLabel
 
 local isGeneralSelected = true
 local isAudioSelected = false
@@ -88,10 +91,13 @@ function Settings.load()
 
     woodSupport = love.graphics.newImage("assets/images/ui/wood_support.png")
     settingsPanel = love.graphics.newImage("assets/images/ui/settings_panel.png.png")
+    settingForestPanel = love.graphics.newImage("assets/images/ui/workbench.png")
     checkmarkImage = love.graphics.newImage("assets/images/ui/x.png")
 
     fullscreenLabel = love.graphics.newText(font, "Fullscreen")
     resolutionLabel = love.graphics.newText(font, "Resolution")
+
+    masterVolumeLabel = love.graphics.newText(font, "Master volume")
 
     isFullscreenSelected = love.window.getFullscreen()
     fullscreen = isFullscreenSelected
@@ -139,6 +145,15 @@ function Settings.load()
 
         applyWindowSettings(fullscreen)
     end))
+
+    table.insert(audioButtons, Button.new(1450, 265, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+        AudioManager.decreaseMasterVolume()
+    end))
+
+    table.insert(audioButtons, Button.new(1650, 265, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+         AudioManager.increaseMasterVolume()
+    end))
+
 end
 
 function Settings.draw(mouseX, mouseY)
@@ -146,7 +161,7 @@ function Settings.draw(mouseX, mouseY)
     local resolutionButtonWidth = 200
 
     love.graphics.setColor(1, 1, 1, 1)
-
+    love.graphics.draw(settingForestPanel, 0, 0, 0, 6.8, 6.8)
     love.graphics.draw(woodSupport, 230, 80, 0, 5.5, 5.5)
     love.graphics.draw(settingsPanel, 840, 0, 0, 6.8, 6.8)
 
@@ -179,11 +194,11 @@ function Settings.draw(mouseX, mouseY)
     end
 
     if isAudioSelected then
+        love.graphics.draw(masterVolumeLabel, 1100,280)
         for _, button in ipairs(audioButtons) do
             button:draw()
         end
 
-        love.graphics.rectangle("fill", 100, 500, 380, 70)
     end
 
 if mouseX >= 1100 and mouseX <= 1150
