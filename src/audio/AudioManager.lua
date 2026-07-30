@@ -32,6 +32,14 @@ function AudioManager.playSound(name)
     sound[name]:play()
 end
 
+function AudioManager.mute()
+     love.audio.setVolume(0)
+end
+
+function AudioManager.unmute()
+     love.audio.setVolume(masterVolume)
+end
+
 function AudioManager.decreaseMasterVolume()
     if masterVolume <= 0.1 then
         return
