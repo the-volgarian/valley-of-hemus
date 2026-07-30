@@ -77,7 +77,7 @@ function AudioManager.decreaseSfxVolume()
     love.audio.setVolume(sfxVolume)
 end
 
-function AudioManager.increaseSFxVolume()
+function AudioManager.increaseSfxVolume()
     if sfxVolume >= 1 then
         return
     end
