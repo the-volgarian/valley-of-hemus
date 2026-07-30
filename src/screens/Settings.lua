@@ -277,18 +277,30 @@ function Settings.draw(mouseX, mouseY)
 
     end
 
-if mouseX >= 1100 and mouseX <= 1150
-and mouseY >= 880 and mouseY <= 950 then
-    HelpText.show(
-        "Legend   says   this   is   Emperor   Nikephoros   skull\nBulgarian   craftsmanship   at   its   finest",
-        mouseX + 30,
-        mouseY + 10
-    )
-else
-    HelpText.hide()
-end
+    if mouseX >= 1100 and mouseX <= 1150
+    and mouseY >= 880 and mouseY <= 950 then
 
-HelpText.draw()
+        HelpText.show(
+            "Legend   says   this   is   Emperor   Nikephoros   skull\nBulgarian   craftsmanship   at   its   finest",
+            mouseX + 30,
+            mouseY + 10
+        )
+
+    elseif mouseX >= 1000 and mouseX <= 1050
+    and mouseY >= 880 and mouseY <= 950 then
+
+        HelpText.show(
+            "Even   the   village   healer   refuses   to   identify   it",
+            mouseX + 30,
+            mouseY + 10
+        )
+
+    else
+        HelpText.hide()
+    end
+
+    HelpText.draw()
+
 end
 
 function Settings.mousepressed(x, y, mouseButton)
