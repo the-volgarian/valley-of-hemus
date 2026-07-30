@@ -1,7 +1,6 @@
 local Settings = {}
 local Button = require("src.ui.Button")
 local HelpText = require("src.ui.HelpText")
-local AudioManager = require("src.audio.AudioManager")
 
 
 local navigationButtons = {}
