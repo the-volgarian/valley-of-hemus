@@ -1,3 +1,5 @@
+AudioManager = require("src.audio.AudioManager")
+
 local Button = {}
 Button.__index = Button
 
@@ -25,6 +27,7 @@ function Button.new(x, y, width, height, text, font, bgImagePath, bgColor, textC
     self.pressedColor = pressedColor
     self.onClick = onClick
     self.pressed = false
+    self.wasHovered = false
 
     self.textObject = love.graphics.newText(self.font, self.text)
     self.bgImage = nil
@@ -80,11 +83,20 @@ function Button:contains(x, y)
 end
 
 function Button:isHovered()
-    return self:contains(mouseX, mouseY)
+  local hovered = self:contains(mouseX, mouseY)
+
+    if hovered and not self.wasHovered then
+        AudioManager.playSound("button_hover")
+    end
+
+    self.wasHovered = hovered
+
+    return hovered
 end
 
 function Button:click()
     self.pressed = true
+    AudioManager.playSound("button_select")
 
     if self.onClick then
         self.onClick()
