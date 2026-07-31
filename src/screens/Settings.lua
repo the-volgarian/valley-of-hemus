@@ -158,12 +158,8 @@ function Settings.load()
         isAudioSelected = true
     end))
 
-    table.insert(navigationButtons, Button.new(60, 420, 460, 100, "CONTROLS", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(navigationButtons, Button.new(60, 420, 460, 100, "COMMANDS", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         print("Controls")
-    end))
-
-    table.insert(navigationButtons, Button.new(60, 570, 460, 100, "HELP", font, "assets/images/ui/Sp.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
-        print("Help")
     end))
 
     table.insert(navigationButtons, Button.new(78, 700, 364, 110, "", font, "assets/images/ui/back_btn_image.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
