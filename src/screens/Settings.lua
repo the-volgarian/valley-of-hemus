@@ -8,6 +8,7 @@ local generalButtons = {}
 local audioButtons = {}
 
 local font
+local buttonSymbolFont
 local woodSupport
 local settingsPanel
 local settingForestPanel
@@ -122,6 +123,7 @@ function Settings.load()
     HelpText.load()
 
     font = love.graphics.newFont("assets/fonts/ARCADECLASSIC.TTF", 40)
+    buttonSymbolFont = love.graphics.newFont(50)
 
     woodSupport = love.graphics.newImage("assets/images/ui/wood_support.png")
     settingsPanel = love.graphics.newImage("assets/images/ui/settings_panel.png.png")
@@ -187,32 +189,32 @@ function Settings.load()
         applyWindowSettings(fullscreen)
     end))
 
-    table.insert(audioButtons, Button.new(1450, 265, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(audioButtons, Button.new(1450, 265, 70, 70, "-", buttonSymbolFont, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         AudioManager.decreaseMasterVolume()
         updateMasterVolumeText()
     end))
 
-    table.insert(audioButtons, Button.new(1650, 265, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(audioButtons, Button.new(1650, 265, 70, 70, "+", buttonSymbolFont, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
          AudioManager.increaseMasterVolume()
          updateMasterVolumeText()
     end))
 
-    table.insert(audioButtons, Button.new(1450, 350, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(audioButtons, Button.new(1450, 350, 70, 70, "-", buttonSymbolFont, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         AudioManager.decreaseMusicVolume()
         updateMusicVolumeText()
     end))
 
-    table.insert(audioButtons, Button.new(1650, 350, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(audioButtons, Button.new(1650, 350, 70, 70, "+", buttonSymbolFont, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
          AudioManager.increaseMusicVolume()
          updateMusicVolumeText()
     end))
 
-    table.insert(audioButtons, Button.new(1450, 435, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(audioButtons, Button.new(1450, 435, 70, 70, "-", buttonSymbolFont, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
         AudioManager.decreaseSfxVolume()
         updateSfxVolumeText()
     end))
 
-    table.insert(audioButtons, Button.new(1650, 435, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+    table.insert(audioButtons, Button.new(1650, 435, 70, 70, "+", buttonSymbolFont, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
          AudioManager.increaseSfxVolume()
          updateSfxVolumeText()
     end))
@@ -287,6 +289,14 @@ function Settings.draw(mouseX, mouseY)
         love.graphics.draw(sfxVolumeText, 1550, 450)
         for _, button in ipairs(audioButtons) do
             button:draw()
+        end
+
+        if AudioManager.isMusicMuted() then
+             love.graphics.draw(checkmarkImage, 1550, 520, 0, 4.5, 4.5)
+        end
+
+        if AudioManager.isMasterMuted() then
+            love.graphics.draw(checkmarkImage, 1550, 605, 0, 4.5, 4.5)
         end
 
     end

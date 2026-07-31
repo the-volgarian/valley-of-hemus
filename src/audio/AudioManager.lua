@@ -5,11 +5,12 @@ local sound = {}
 local masterVolume = 1
 local musicVolume = 1
 local musicVolumeBeforeMute
+local masterVolumeBeforeMute
 local sfxVolume = 1
 
 local function updateMusicVolume()
     for _, source in pairs(music) do
-        source:setVolume(musicVolume * masterVolume)
+        source:setVolume(musicVolume)
     end
 end
 
@@ -34,11 +35,14 @@ function AudioManager.playSound(name)
 end
 
 function AudioManager.muteMasterVolume()
-     love.audio.setVolume(0)
+    masterVolumeBeforeMute = masterVolume
+    masterVolume = 0
+    love.audio.setVolume(masterVolume)
 end
 
 function AudioManager.unmuteMasterVolume()
-     love.audio.setVolume(masterVolume)
+    masterVolume = masterVolumeBeforeMute
+    love.audio.setVolume(masterVolume)
 end
 
 function AudioManager.muteMusicVolume()
@@ -48,7 +52,7 @@ function AudioManager.muteMusicVolume()
 end
 
 function AudioManager.unmuteMusicVolume()
-    musicVolume = musicVolumeBeforeMute 
+    musicVolume = musicVolumeBeforeMute
     updateMusicVolume()
 end
 
@@ -104,6 +108,22 @@ function AudioManager.increaseSfxVolume()
     sfxVolume = sfxVolume + 0.1
     
     love.audio.setVolume(sfxVolume)
+end
+
+function  AudioManager.isMusicMuted()
+    if musicVolume == 0 then
+        return true
+    end
+
+    return false
+end
+
+function AudioManager.isMasterMuted()
+        if masterVolume == 0 then
+        return true
+    end
+
+    return false
 end
 
 function AudioManager.getMasterVolume()
