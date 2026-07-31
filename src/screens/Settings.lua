@@ -18,12 +18,14 @@ local fullscreenLabel
 local masterVolumeLabel
 local musicVolumeLabel
 local sfxVolumeLabel
-local muteLebel
+local muteMusicLebel
+local muteMasterLebel
 
 local isGeneralSelected = true
 local isAudioSelected = false
 local isFullscreenSelected = false
-local isMute = not true
+local isMusicMute = not true
+local isMasterMute = not true
 
 local currentResolutionIndex = 4
 local fullscreen = true
@@ -132,7 +134,8 @@ function Settings.load()
     masterVolumeLabel = love.graphics.newText(font, "Master volume")
     musicVolumeLabel = love.graphics.newText(font, "Music volume")
     sfxVolumeLabel = love.graphics.newText(font,"Sfx volume")
-    muteLebel = love.graphics.newText(font, "Mute")
+    muteMusicLebel = love.graphics.newText(font, "Mute music")
+    muteMasterLebel = love.graphics.newText(font, "Mute audio")
 
     isFullscreenSelected = love.window.getFullscreen()
     fullscreen = isFullscreenSelected
@@ -214,13 +217,23 @@ function Settings.load()
          updateSfxVolumeText()
     end))
 
-    table.insert(audioButtons, Button.new(1650, 520, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
-        if isMute then
-            AudioManager.unmute()
-            isMute = false
+    table.insert(audioButtons, Button.new(1550, 520, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+        if isMusicMute then
+            AudioManager.unmuteMusicVolume()
+            isMusicMute = false
         else
-            AudioManager.mute()
-            isMute = true
+            AudioManager.muteMusicVolume()
+            isMusicMute = true
+        end
+    end))
+
+    table.insert(audioButtons, Button.new(1550, 605, 70, 70, "", font, "assets/images/ui/btn.png", {62 / 255, 39 / 255, 24 / 255}, {1, 1, 1}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
+        if isMasterMute then
+            AudioManager.unmuteMasterVolume()
+            isMasterMute = false
+        else
+            AudioManager.muteMasterVolume()
+            isMasterMute = true
         end
     end))
 
@@ -267,7 +280,8 @@ function Settings.draw(mouseX, mouseY)
         love.graphics.draw(masterVolumeLabel, 1100, 280)
         love.graphics.draw(musicVolumeLabel, 1100, 365)
         love.graphics.draw(sfxVolumeLabel, 1100, 450)
-        love.graphics.draw(muteLebel, 1100, 520)
+        love.graphics.draw(muteMusicLebel, 1100, 535)
+        love.graphics.draw(muteMasterLebel, 1100, 620)
         love.graphics.draw(masterVolumeText, 1550, 280)
         love.graphics.draw(musicVolumeText, 1550, 365)
         love.graphics.draw(sfxVolumeText, 1550, 450)
