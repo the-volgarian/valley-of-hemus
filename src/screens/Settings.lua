@@ -1,7 +1,7 @@
 local Settings = {}
 local Button = require("src.ui.Button")
 local HelpText = require("src.ui.HelpText")
-
+local ScreenManager = require("src.game.ScreenManager")
 
 local navigationButtons = {}
 local generalButtons = {}
@@ -163,7 +163,7 @@ function Settings.load()
     end))
 
     table.insert(navigationButtons, Button.new(78, 700, 364, 110, "", font, "assets/images/ui/back_btn_image.png", nil, {62 / 255, 39 / 255, 24 / 255}, nil, {145 / 255, 94 / 255, 45 / 255}, function()
-        print("Back")
+        ScreenManager.setScreen("mainMenu")
     end))
     -- 3.31125
 
